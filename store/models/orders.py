@@ -1,5 +1,5 @@
 from django.db import models
-from .product import Products
+from .products import Products
 from .customer import Customer
 import datetime
 

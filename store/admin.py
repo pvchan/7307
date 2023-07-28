@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models.product import Products
+from .models.products import Products
 from .models.category import Category
 from .models.customer import Customer
 from .models.orders import Order
@@ -19,4 +19,3 @@ admin.site.register(Customer)
 admin.site.register(Order)
 
 
-# username = Tanushree, email = tanushree7252@gmail.com, password = 1234

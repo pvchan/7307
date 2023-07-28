@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import render, redirect
 from django.views import View
-from store.models.product import Products
+from store.models.products import Products
 from store.models.category import Category
 from store.models.customer import Customer
 

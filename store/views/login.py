@@ -1,6 +1,6 @@
 from django.shortcuts import render , redirect , HttpResponseRedirect
 from django.contrib.auth.hashers import  check_password
-from store.models.customer import Customer
+from store.models.user import CustomUser
 from django.views import View
 
 
@@ -14,7 +14,10 @@ class Login(View):
     def post(self, request):
         email = request.POST.get ('email')
         password = request.POST.get ('password')
-        customer = Customer.get_customer_by_email (email)
+        try:
+            customer = CustomUser.objects.get(email=email)
+        except CustomUser.DoesNotExist:
+            customer = None
         error_message = None
         if customer:
             flag = check_password (password, customer.password)

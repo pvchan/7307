@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from store.models.products import Products
 from store.models.category import Category
-from store.models.customer import Customer
+from store.models.user import CustomUser
 
 class ProductView(View):
     def get(self, request, product_id):
@@ -18,7 +18,7 @@ class ProductView(View):
         review_text = request.POST.get('review')
 
         # fetch the customer's name
-        customer = Customer.objects.get(id=customer_id)
+        customer = CustomUser.objects.get(id=customer_id)
         customer_name = customer.first_name + " " + customer.last_name
 
         product_db = Products.objects.get(id=product_id)

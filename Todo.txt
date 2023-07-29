@@ -4,3 +4,9 @@ Need to make sure that when any user is created this Role is also set
 Need to set it in 2 places
 1. Signup
 2. admin_dashboard/create_user
+
+
+
+admin_dashboard
+1. View Users
+2. View Orders

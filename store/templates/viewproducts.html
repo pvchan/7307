@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="display-4 mb-3">All Products</h2>
+        <a href="{% url 'new_product' %}" class="btn btn-primary mb-3">Add New Product</a>
+        {% for product in products %}
+            <div class="card mx-auto mb-3" id={{product.id}} style="width: 18rem;">
+                <a href="{% url 'editproduct' product.id %}">
+                    <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
+                </a>
+                <div class="card-body">
+                    <p class="card-title">{{product.name}}</p>
+                    <p class="card-text"><b>{{product.price}}</b></p>
+                </div>
+            </div>
+        {% empty %}
+            <p>No products available.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

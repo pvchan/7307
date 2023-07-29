@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <h2 class="display-4 mb-3">Edit User</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}">
+            </div>
+            <div class="form-group">
+                <label for="first_name">First Name:</label>
+                <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user.first_name }}">
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name:</label>
+                <input type="text" class="form-control" id="last_name" name="last_name" value="{{ user.last_name }}">
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}">
+            </div>
+            <div class="form-group">
+                <label for="phone_number">Phone Number:</label>
+                <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ user.phone_number }}">
+            </div>
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <select class="form-control" id="role" name="role">
+                    {% for role in roles %}
+                        <option value="{{ role.id }}" {% if user.role.id == role.id %}selected{% endif %}>{{ role.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Save Changes">
+        </form>
+    </div>
+{% endblock %}

@@ -29,6 +29,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     phone_number = models.CharField(max_length=15)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
 
     objects = CustomUserManager()
 
@@ -66,7 +67,7 @@ class Role(models.Model):
     description = models.TextField()
 
     def __str__(self):
-        return self.get_name_display()
+        return self.name  
 
 
 # User-Role Mapping Model
@@ -77,3 +78,4 @@ class UserRole(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.role.name}"
+

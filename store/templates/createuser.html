@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="display-8 mb-3">Create New User</h2>
+    <form method="POST">
+        <div class="list-group">
+            {% csrf_token %}
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email">
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password">
+            <label for="first_name">First Name:</label>
+            <input type="text" id="first_name" name="first_name">
+            <label for="last_name">Last Name:</label>
+            <input type="text" id="last_name" name="last_name">
+            <label for="phone_number">Phone Number:</label>
+            <input type="text" id="phone_number" name="phone_number">
+            <label for="user_type">User Type:</label>
+            <select id="user_type" name="user_type">
+                <option value="ADMIN">Admin</option>
+                <option value="STAFF">Staff</option>
+            </select>
+        </div>
+        <input type="submit" value="Create User">
+    </form>
+</div>
+{% endblock %}

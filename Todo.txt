@@ -1,0 +1,6 @@
+The Role is not being set in the database. It is only set as __is_staff and is_admin
+
+Need to make sure that when any user is created this Role is also set
+Need to set it in 2 places
+1. Signup
+2. admin_dashboard/create_user

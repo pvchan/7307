@@ -1,31 +1,39 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.hashers import check_password
-from store.models.user import CustomUser
+# checkout.py
+import json
+import stripe
+from django.conf import settings
+from django.http import JsonResponse
 from django.views import View
-from store.models.products import Products
-from store.models.orders import Order
+from store.models import Order
 
-class CheckOut(View):
+stripe.api_key = settings.STRIPE_SECRET_KEY
+
+def calculate_total_amount(order):
+    total_amount = 0
+    for item in order.items.all():
+        total_amount += item.product.price * item.quantity
+    return total_amount
+
+class CreatePaymentIntentView(View):
     def post(self, request):
-        address = request.POST.get('address')
-        phone = request.POST.get('phone')
-        customer_id = request.session.get('customer')
-        cart = request.session.get('cart')
-        products = Products.get_products_by_id(list(cart.keys()))
-        print(address, phone, customer_id, cart, products)
+        try:
+            # Fetch order by ID or create a new one
+            order = Order.objects.get(id=request.POST.get('order_id'))  # replace with your own function
 
-        # Fetch the actual Customer object from the database
-        customer = CustomUser.objects.get(id=customer_id)
+            # Calculate total amount of the order
+            total_amount = calculate_total_amount(order)  # replace with your own function
 
-        for product in products:
-            print(cart.get(str(product.id)))
-            order = Order(customer=customer,
-                          product=product,
-                          price=product.price,
-                          address=address,
-                          phone=phone,
-                          quantity=cart.get(str(product.id)))
+            # Create a PaymentIntent
+            intent = stripe.PaymentIntent.create(
+                amount=total_amount,  # amount is in cents
+                currency='usd',
+            )
+
+            # Save the PaymentIntent ID to the order
+            order.payment_intent_id = intent.id
             order.save()
-        request.session['cart'] = {}
 
-        return redirect('cart')
+            # Send the client secret to the front end
+            return JsonResponse({'clientSecret': intent.client_secret})
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=400)

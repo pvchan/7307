@@ -13,6 +13,7 @@ from .views.createuser import CreateUser
 from .views.viewproducts import ViewProducts, EditProduct, NewProduct
 from .views.viewcategories import ViewCategories, EditCategory, NewCategory
 from .views.viewusers import ViewUsers, EditUser
+from .views.vieworder import ViewOrders, EditOrder
 
 urlpatterns = [
     path('', Index.as_view(), name='homepage'),
@@ -35,4 +36,6 @@ urlpatterns = [
     path('new_product', NewProduct.as_view(), name='new_product'),
     path('viewusers', ViewUsers.as_view(), name='viewusers'),
     path('viewusers/edit/<int:user_id>/', EditUser.as_view(), name='edituser'),
+    path('vieworders', ViewOrders.as_view(), name='vieworders'),
+    path('editorder/edit/<int:order_id>/', EditOrder.as_view(), name='editorder'),
 ]

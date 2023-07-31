@@ -13,7 +13,8 @@ class EditProduct(View):
     def get(self, request, product_id):
         product = get_object_or_404(Products, id=product_id)
         categories = Category.get_all_categories()
-        return render(request, 'editproduct.html', {'product': product, 'categories': categories})
+        reviews = json.loads(product.review)
+        return render(request, 'editproduct.html', {'product': product, 'categories': categories, 'reviews': reviews})
     
     def post(self, request, product_id):
         product = get_object_or_404(Products, id=product_id)

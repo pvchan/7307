@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="display-4 mb-3">Edit Order Status</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="status">Status:</label>
+            <select class="form-control" id="status" name="status">
+                <option value="pending" {% if order.status == False %}selected{% endif %}>Pending</option>
+                <option value="paid" {% if order.status == True %}selected{% endif %}>Paid</option>
+            </select>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Save Status">
+    </form>
+</div>
+{% endblock %}

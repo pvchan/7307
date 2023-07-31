@@ -47,6 +47,14 @@
             <!-- redirect the form to checkout.html-->
             <form action="/checkout" method="POST">
                 {% csrf_token %}
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" name="address" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone:</label>
+                    <input type="text" id="phone" name="phone" class="form-control" required>
+                </div>
                 <script
                     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                     data-key="pk_test_51NZ4ZdEiMppiGgYySDrgAESxJDbOa0PEHnmvxZ3kaU6274TtLAKjywiD8cNovZUZCLVmJJEcax8o5Fc7ms3cGjPJ00WS5XOzE8"

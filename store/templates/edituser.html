@@ -29,7 +29,15 @@
                 <label for="role">Role:</label>
                 <select class="form-control" id="role" name="role">
                     {% for role in roles %}
-                        <option value="{{ role.id }}" {% if user.role.id == role.id %}selected{% endif %}>{{ role.name }}</option>
+                        {% if user.userrole_set.exists %}
+                            {% if role.id == user.userrole_set.first.role.id %}
+                                <option value="{{ role.id }}" selected>{{ role.name }}</option>
+                            {% else %}
+                                <option value="{{ role.id }}">{{ role.name }}</option>
+                            {% endif %}
+                        {% else %}
+                            <option value="{{ role.id }}">{{ role.name }}</option>
+                        {% endif %}
                     {% endfor %}
                 </select>
             </div>

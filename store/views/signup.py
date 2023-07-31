@@ -1,22 +1,22 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
-from store.models.user import CustomUser
+from store.models.user import CustomUser, Role, UserRole
 from django.views import View
 
-
-class Signup (View):
+class Signup(View):
     def get(self, request):
-        return render (request, 'signup.html')
+        return render(request, 'signup.html')
 
     def post(self, request):
         postData = request.POST
-        username = postData.get ('username')
-        first_name = postData.get ('firstname')
-        last_name = postData.get ('lastname')
-        phone_number = postData.get ('phone')
-        email = postData.get ('email')
-        password = postData.get ('password')
-        # validation
+        username = postData.get('username')
+        first_name = postData.get('firstname')
+        last_name = postData.get('lastname')
+        phone_number = postData.get('phone')
+        email = postData.get('email')
+        password = postData.get('password')
+
+        # Validation
         value = {
             'first_name': first_name,
             'last_name': last_name,
@@ -25,27 +25,26 @@ class Signup (View):
         }
         error_message = None
 
-        user = CustomUser (username=username,
-                   first_name=first_name,
-                   last_name=last_name,
-                   phone_number=phone_number,
-                   email=email,
-                   password=password)
-        error_message = self.validateUser (user)
+        user = CustomUser(username=username, first_name=first_name, last_name=last_name, phone_number=phone_number, email=email, password=password)
+        error_message = self.validateUser(user)
 
         if not error_message:
-            print (first_name, last_name, phone_number, email, password)
-            user.password = make_password (user.password)
+            user.password = make_password(user.password)
             user.save()
-            return redirect ('homepage')
+
+            # Assign 'customer' role to the user
+            customer_role, _ = Role.objects.get_or_create(name='customer', description='Customer Role')
+            UserRole.objects.create(user=user, role=customer_role)
+
+            return redirect('homepage')
         else:
             data = {
                 'error': error_message,
                 'values': value
             }
-            return render (request, 'signup.html', data)
-
-
+            return render(request, 'signup.html', data)
+        
+        
     def validateUser(self, user):
         error_message = None
         if (not user.first_name):

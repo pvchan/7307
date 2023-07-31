@@ -3,17 +3,15 @@
 {% block content %}
     <div class="container mt-4">
         <h2 class="display-4 mb-3">All Users</h2>
-        <ul class="list-group mb-4">
-        {% for user in users %}
-            <li class="list-group-item">
-                <a href="{% url 'edituser' user.id %}">{{ user.first_name }} {{ user.last_name }}</a>
-                <!-- Display the roles for this user -->
-                {% for userrole in user.userrole_set.all %}
-                    <p>{{ userrole.role.name }}</p>
+        {% for role in roles %}
+            <h3>{{ role.name }}</h3>
+            <ul class="list-group mb-4">
+                {% for userrole in role.userrole_set.all %}
+                    <li class="list-group-item">
+                        <a href="{% url 'edituser' userrole.user.id %}">{{ userrole.user.first_name }} {{ userrole.user.last_name }}</a>
+                    </li>
                 {% endfor %}
-            </li>
+            </ul>
         {% endfor %}
-
-        </ul>
     </div>
 {% endblock %}

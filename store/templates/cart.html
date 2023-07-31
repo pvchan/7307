@@ -6,7 +6,7 @@
 {% load custom_filter %}
 <div class="container">
    <div class="border rounded p-4 m-4">
-        <p class="display-4 pl-4 ml-4 btn btn-success rounded-pill">Your Cart</p>
+        <h3 class="text-left">Cart</h3>
         <table class="table">
             <thead>
                 <tr>
@@ -44,7 +44,20 @@
         </table>
         <hr>
         <div class="m-3 p-3">
-            <a href="#" data-toggle="modal" data-target="#exampleModal" class="btn btn-outline-success border rounded  col-lg-3 float-right">Check out</a>
+            <!-- redirect the form to checkout.html-->
+            <form action="/checkout" method="POST">
+                {% csrf_token %}
+                <script
+                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    data-key="pk_test_51NZ4ZdEiMppiGgYySDrgAESxJDbOa0PEHnmvxZ3kaU6274TtLAKjywiD8cNovZUZCLVmJJEcax8o5Fc7ms3cGjPJ00WS5XOzE8"
+                    data-amount="{{products|total_cart_price:request.session.cart}}"
+                    data-name="Django Store"
+                    data-description="Payment"
+                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                    data-locale="auto"
+                    data-currency="aud">
+                </script>
+            </form>
         </div>
    </div>
 </div>

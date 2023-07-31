@@ -1,10 +1,9 @@
-from django.contrib import admin
 from django.urls import path
+from . import views
 from .views.home import Index , store
 from .views.signup import Signup
 from .views.login import Login , logout
 from .views.cart import Cart
-#from .views.checkout import CreatePaymentIntentView
 from .views.orders import OrderView
 from .middlewares.auth import  auth_middleware
 from .views.products import ProductView
@@ -18,12 +17,11 @@ from .views.viewusers import ViewUsers, EditUser
 urlpatterns = [
     path('', Index.as_view(), name='homepage'),
     path('store', store , name='store'),
-
     path('signup', Signup.as_view(), name='signup'),
     path('login', Login.as_view(), name='login'),
     path('logout', logout , name='logout'),
     path('cart', auth_middleware(Cart.as_view()) , name='cart'),
-    #path('check-out', CreatePaymentIntentView.as_view() , name='checkout'),
+    path('checkout', auth_middleware(views.cart.checkout) , name='checkout'),
     path('orders', auth_middleware(OrderView.as_view()), name='orders'),
     path('product/<int:product_id>', ProductView.as_view(), name='product'),
     path('admin_dashboard', AdminView.as_view(), name='admin_dashboard'),

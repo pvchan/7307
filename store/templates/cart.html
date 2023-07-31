@@ -7,7 +7,6 @@
 <div class="container">
    <div class="border rounded p-4 m-4">
         <p class="display-4 pl-4 ml-4 btn btn-success rounded-pill">Your Cart</p>
-        <hr>
         <table class="table">
             <thead>
                 <tr>
@@ -49,96 +48,5 @@
         </div>
    </div>
 </div>
-
-
-<!-- modal -->
-
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">
-              Check Out Form
-          </h5>
-          <hr>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="m-2 p-3">
-            <form action="/check-out" method="POST">
-                {% csrf_token %}
-                <div class="form-group">
-                  <label for="">Address</label>
-                  <input type="text" name="address" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                  
-                </div>
-                <div class="form-group">
-                    <label for="">Phone</label>
-                    <input type="text" name="phone" id="" class="form-control" placeholder="" aria-describedby="helpId">
-                  </div>
-
-                  <input type="submit" class="btn float-right btn-outline-success col-lg-6" value="Check out">
-            </form>
-          </div>
-        </div>
-        
-      </div>
-    </div>
-  </div>
-
-<!-- Include Stripe.js -->
-<script src="https://js.stripe.com/v3/"></script>
-
-<!-- Create a payment form -->
-<form id="payment-form">
-  <div id="card-element">
-    <!-- Elements will create input fields here -->
-  </div>
-
-  <!-- We'll put the error messages in this element -->
-  <div id="card-errors" role="alert"></div>
-
-  <button id="submit">Pay</button>
-</form>
-
-<script>
-// Initialize Stripe.js
-var stripe = Stripe('your_stripe_public_key');  // replace with your actual public key
-
-// Create an instance of Elements
-var elements = stripe.elements();
-
-// Create an instance of the card Element
-var card = elements.create('card');
-
-// Add an instance of the card Element into the `card-element` <div>
-card.mount('#card-element');
-
-// Handle form submission
-var form = document.getElementById('payment-form');
-form.addEventListener('submit', function(event) {
-  event.preventDefault();
-
-  stripe.confirmCardPayment('payment_intent_client_secret', {  // replace with actual client secret
-    payment_method: {
-      card: card,
-    }
-  }).then(function(result) {
-    if (result.error) {
-      // Show error to your customer (e.g., insufficient funds)
-      console.log(result.error.message);
-    } else {
-      // The payment has been processed!
-      if (result.paymentIntent.status === 'succeeded') {
-        // You can redirect to a thank-you page
-      }
-    }
-  });
-});
-</script>
-
 
 {% endblock %}

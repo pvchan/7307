@@ -4,13 +4,14 @@ from django.views import View
 from store.models.products import Products
 from store.models.category import Category
 from store.models.user import CustomUser
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 class ProductView(View):
     def get(self, request, product_id):
         product = Products.objects.get(id=product_id)
         review = json.loads(product.review)
         return render(request, 'products.html', {'product' : product, 'reviews': review})
-
     
     def post(self, request, product_id):
         product_name = request.POST.get('product')

@@ -4,14 +4,25 @@ from django.views import View
 from store.models.products import Products
 from store.models.category import Category
 from store.models.user import CustomUser
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+def custom_login_required(view_func):
+    def wrapper(request, *args, **kwargs):
+        if 'customer' in request.session:
+            return view_func(request, *args, **kwargs)
+        else:
+            next_url = request.get_full_path()
+            return redirect(f'/login?next={next_url}')
+    return wrapper
 
 class ProductView(View):
     def get(self, request, product_id):
         product = Products.objects.get(id=product_id)
         review = json.loads(product.review)
         return render(request, 'products.html', {'product' : product, 'reviews': review})
-
     
+    @method_decorator(custom_login_required)
     def post(self, request, product_id):
         product_name = request.POST.get('product')
         customer_id = request.POST.get('customer')

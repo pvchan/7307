@@ -58,7 +58,7 @@
                 <script
                     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                     data-key="pk_test_51NZ4ZdEiMppiGgYySDrgAESxJDbOa0PEHnmvxZ3kaU6274TtLAKjywiD8cNovZUZCLVmJJEcax8o5Fc7ms3cGjPJ00WS5XOzE8"
-                    data-amount="{{products|total_cart_price:request.session.cart}}"
+                    data-amount="{{products|total_cart_price:request.session.cart|currency}}"
                     data-name="Django Store"
                     data-description="Payment"
                     data-image="https://stripe.com/img/documentation/checkout/marketplace.png"

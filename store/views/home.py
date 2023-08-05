@@ -2,7 +2,7 @@ from django.shortcuts import render , redirect , HttpResponseRedirect
 from store.models.products import Products
 from store.models.category import Category
 from django.views import View
-
+from store.models.user import CustomUser, UserRole  
 
 # Create your views here.
 class Index(View):
@@ -39,6 +39,8 @@ class Index(View):
         # print()
         return HttpResponseRedirect(f'/store{request.get_full_path()[1:]}')
 
+from store.models.user import CustomUser, UserRole
+
 def store(request):
     cart = request.session.get('cart')
     if not cart:
@@ -49,13 +51,26 @@ def store(request):
     if categoryID:
         products = Products.get_all_products_by_categoryid(categoryID)
     else:
-        products = Products.get_all_products();
+        products = Products.get_all_products()
 
-    data = {}
-    data['products'] = products
-    data['categories'] = categories
+    # Get user roles
+    customer_id = request.session.get('customer')
+    roles = []
+    if customer_id:
+        try:
+            customer = CustomUser.objects.get(id=customer_id)
+            roles = [user_role.role.name for user_role in UserRole.objects.filter(user=customer)]
+        except CustomUser.DoesNotExist:
+            pass
+
+    data = {
+        'products': products,
+        'categories': categories,
+        'roles': roles,  # Include roles in the context
+    }
 
     print('you are : ', request.session.get('email'))
     return render(request, 'index.html', data)
+
 
 

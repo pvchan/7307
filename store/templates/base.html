@@ -58,6 +58,14 @@
 
       <ul class=" navbar-nav my-2 my-lg-0">
 
+        {% if roles %}
+        <li class="nav-item active">
+          <a class="nav-link">Role: {{ roles|join:", " }}<span class="sr-only">(current)</span></a>
+        </li>
+        {% else %}
+
+        {% endif %}  
+
         <li class="nav-item active">
           <a class="nav-link" href="/cart">Cart 
             <span class="badge badge-success">{{request.session.cart.keys|length}}</span>

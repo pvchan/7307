@@ -3,17 +3,29 @@ import stripe
 from django.views import View
 from store.models.products import Products
 from django.conf import settings
-from store.models.user import CustomUser
+from store.models.user import CustomUser, UserRole
 from store.models.orders import Order
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 class Cart(View):
-    def get(self , request):
-        ids = list(request.session.get('cart').keys())
-        products = Products.get_products_by_id(ids)
-        print(products)
-        return render(request , 'cart.html' , {'products' : products} )
+    def get(self, request):
+        customer_id = request.session.get('customer')
+        roles = []
+        if customer_id:
+            try:
+                customer = CustomUser.objects.get(id=customer_id)
+                user_roles = UserRole.objects.filter(user=customer)
+                for user_role in user_roles:
+                    role_name = user_role.role.name.lower()
+                    roles.append(role_name)
+                    if role_name == 'customer':
+                        ids = list(request.session.get('cart').keys())
+                        products = Products.get_products_by_id(ids)
+                        return render(request, 'cart.html', {'products': products, 'roles': roles})
+            except CustomUser.DoesNotExist:
+                pass
+        return render(request, 'login.html', {'error': 'You must be a customer to view your cart!'})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -15,7 +15,7 @@ class StaffView(View):
                     role_name = user_role.role.name.lower()
                     roles.append(role_name)
                     # Check if the user has either the 'staff' or 'admin' role
-                    if role_name == 'staff' or role_name == 'admin':
+                    if role_name == 'staff':
                         context = {
                             'roles': roles,  # Include roles in the context
                         }
@@ -24,4 +24,4 @@ class StaffView(View):
                 pass
 
         # Redirect to login or other page if the user does not have the required role
-        return render(request, 'login.html', {'error': 'You must be admin or staff !!'})
+        return render(request, 'login.html', {'error': 'You must be staff !!'})

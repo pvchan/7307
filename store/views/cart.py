@@ -20,7 +20,6 @@ class Cart(View):
         context['key'] = settings.STRIPE_PUBLIC_KEY
         return context
     
-#@login_required
 def checkout(request):
     if request.method == "POST":
         checkout = stripe.Charge.create(

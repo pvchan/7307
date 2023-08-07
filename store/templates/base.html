@@ -76,7 +76,7 @@
 
         {% endif %}  
 
-        {% if request.path != '/admin_dashboard' and request.path != '/staff_dashboard' %}
+        {% if request.path != '/admin_dashboard' and request.path != '/staff_dashboard' and request.path != '/viewusers' and request.path != '/viewproducts' and request.path != '/create_user' and request.path != '/vieworders' %}
         <li class="nav-item active">
           <a class="nav-link" href="/cart">Cart 
             <span class="badge badge-success">{{request.session.cart.keys|length}}</span>
@@ -85,7 +85,7 @@
         {% endif %}
         {% if request.session.customer %}
        
-        {% if request.path != '/admin_dashboard' and request.path != '/staff_dashboard' %}
+        {% if request.path != '/admin_dashboard' and request.path != '/staff_dashboard' and request.path != '/viewusers' and request.path != '/viewproducts' and request.path != '/create_user' and request.path != '/vieworders' %}
         <li class="nav-item active ">
           <a class="nav-link" href="/orders">Orders<span class="sr-only">(current)</span></a>
         </li>

@@ -7,9 +7,30 @@ from django.views import View
 
 class CreateUser(View):
     def get(self, request):
-        return render(request, 'createuser.html')
+        # Check if the logged-in user has the 'Admin' role
+        customer_id = request.session.get('customer')
+        roles = []
+        if customer_id:
+            try:
+                customer = CustomUser.objects.get(id=customer_id)
+                if UserRole.objects.filter(user=customer, role__name='Admin').exists():
+                    user_roles = UserRole.objects.filter(user=customer)
+                    for user_role in user_roles:
+                        role_name = user_role.role.name.lower()
+                        roles.append(role_name)
+                    return render(request, 'createuser.html', {'roles': roles})
+            except CustomUser.DoesNotExist:
+                pass
+        
+        # Redirect to login or other page if the user does not have the required role
+        return render(request, 'login.html', {'error': 'You must be admin !!'})
 
     def post(self, request):
+        # Same check for 'Admin' role as in the 'get' method
+        customer_id = request.session.get('customer')
+        if not customer_id or not UserRole.objects.filter(user__id=customer_id, role__name='Admin').exists():
+            return render(request, 'login.html', {'error': 'You must be admin !!'})
+
         username = request.POST.get('username')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -65,4 +86,4 @@ class CreateUser(View):
         user_role = UserRole(user=user, role=role)
         user_role.save()
 
-        return redirect('admin_dashboard') 
+        return redirect('admin_dashboard')

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load custom_filter %}
 {% block content %}
     <div class="container mt-4">
         <h2 class="display-4 mb-3">All Products</h2>
@@ -11,7 +11,7 @@
                 </a>
                 <div class="card-body">
                     <p class="card-title">{{product.name}}</p>
-                    <p class="card-text"><b>{{product.price}}</b></p>
+                    <p class="card-text"><b>{{product.price|currency}}</b></p>
                 </div>
             </div>
         {% empty %}

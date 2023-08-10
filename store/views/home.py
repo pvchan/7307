@@ -39,8 +39,6 @@ class Index(View):
         # print()
         return HttpResponseRedirect(f'/store{request.get_full_path()[1:]}')
 
-from store.models.user import CustomUser, UserRole
-
 def store(request):
     cart = request.session.get('cart')
     if not cart:
@@ -69,7 +67,7 @@ def store(request):
         'roles': roles,  # Include roles in the context
     }
 
-    print('you are : ', request.session.get('email'))
+    print('you are : ', request.session.get('customer'))
     return render(request, 'index.html', data)
 
 

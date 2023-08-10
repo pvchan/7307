@@ -41,7 +41,9 @@
                         <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
                     </a>
                     <div class="card-body">
-                        <p class="card-title">{{product.name}}</p>
+                        <a href="/product/{{product.id}}">
+                            <p class="card-title">{{product.name}}</p>
+                        </a>
                         <p class="card-text"><b>{{product.price|currency}}</b></p>
                     </div>
 

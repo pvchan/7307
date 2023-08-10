@@ -21,9 +21,13 @@
             <div class="row mx-auto" id="productList">
                 {% for product in products %}
                 <div class="card mx-auto mb-3 product-card" id={{product.id}} data-product-name="{{product.name}}" style="width: 18rem;">
-                    <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
+                    <a href="/product/{{product.id}}">
+                        <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
+                    </a>
                     <div class="card-body">
-                        <p class="card-title">{{product.name}}</p>
+                        <a href="/product/{{product.id}}">
+                            <p class="card-title">{{product.name}}</p>
+                        </a>
                         <p class="card-text"><b>{{product.price|currency}}</b></p>
                     </div>
                     <!-- ... (rest of your card layout) ... -->
@@ -36,41 +40,41 @@
 
 <script>
     function performSearch() {
-    var searchTerm = document.getElementById('searchQuery').value;
-    window.location.hash = encodeURIComponent(searchTerm);
-    filterProducts(searchTerm);
-}
+        var searchTerm = document.getElementById('searchQuery').value;
+        window.location.hash = encodeURIComponent(searchTerm);
+        filterProducts(searchTerm);
+    }
 
-function filterProducts(term) {
-    var cards = document.querySelectorAll('.product-card');
-    var resultsCount = 0;
+    function filterProducts(term) {
+        var cards = document.querySelectorAll('.product-card');
+        var resultsCount = 0;
 
-    cards.forEach(function(card) {
-        var productName = card.getAttribute('data-product-name');
+        cards.forEach(function(card) {
+            var productName = card.getAttribute('data-product-name');
 
-        if (productName.toLowerCase().includes(term.toLowerCase())) {
-            card.style.display = 'block';
-            resultsCount++;
+            if (productName.toLowerCase().includes(term.toLowerCase())) {
+                card.style.display = 'block';
+                resultsCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        var resultsDiv = document.getElementById('results');
+        if (resultsCount > 0) {
+            resultsDiv.innerHTML = "You searched for: " + term;
         } else {
-            card.style.display = 'none';
+            resultsDiv.innerHTML = "No results found for: " + term;
         }
-    });
-
-    var resultsDiv = document.getElementById('results');
-    if (resultsCount > 0) {
-        resultsDiv.innerHTML = "You searched for: " + term;
-    } else {
-        resultsDiv.innerHTML = "No results found for: " + term;
     }
-}
 
-window.onload = function() {
-    var hashTerm = decodeURIComponent(window.location.hash.substring(1));
-    if (hashTerm) {
-        document.getElementById('searchQuery').value = hashTerm;
-        filterProducts(hashTerm);
-    }
-};
+    window.onload = function() {
+        var hashTerm = decodeURIComponent(window.location.hash.substring(1));
+        if (hashTerm) {
+            document.getElementById('searchQuery').value = hashTerm;
+            filterProducts(hashTerm);
+        }
+    };
 
 </script>
 

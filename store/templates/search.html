@@ -39,8 +39,49 @@
 </div>
 
 <script>
+    function InputValidate(searchTerm) {
+        const blackList = [
+            'alert',
+            'prompt',
+            'confirm',
+            'onerror',
+            'onload',
+            'xss',
+            'document.cookie',
+            'document.write',
+            '<!--',
+            '-->',
+            '.innerhtml'
+        ];
+
+        const termToLower = searchTerm.toLowerCase(); // Convert the searchTerm to lower case for case-insensitive matching
+
+        return !blackList.some(term => termToLower.includes(term)); // Returns false if searchTerm contains any black-listed term
+    }
+
+    function OutputEncoding(unsafe) {
+        return unsafe.replace(/&/g, "&amp;")
+                    .replace(/'/g, "&#x27;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/\//g, "&#x2F;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/`/g, "&#x60;")
+                    .replace(/;/g, "&#x3B;")
+                    .replace(/\(/g, "&#x28;")
+                    .replace(/\)/g, "&#x29;")
+                    .replace(/{/g, "&#x7B;")
+                    .replace(/}/g, "&#x7D;");
+    }
+    
+
     function performSearch() {
         var searchTerm = document.getElementById('searchQuery').value;
+        if (!InputValidate(searchTerm)) { // If searchTerm contains a black-listed term
+            alert('Invalid search term detected!');
+            return; // Exit the function
+        }
+        searchTerm = OutputEncoding(searchTerm);
         window.location.hash = encodeURIComponent(searchTerm);
         filterProducts(searchTerm);
     }
@@ -72,9 +113,14 @@
         var hashTerm = decodeURIComponent(window.location.hash.substring(1));
         if (hashTerm) {
             document.getElementById('searchQuery').value = hashTerm;
-            filterProducts(hashTerm);
+            if (InputValidate(hashTerm)) { // Validate the hashTerm before using it
+                filterProducts(hashTerm);
+            } else {
+                alert('Invalid search term detected in URL!');
+            }
         }
     };
+
 
 </script>
 

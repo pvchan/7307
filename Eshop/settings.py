@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'store'
 ]
 
@@ -49,8 +50,21 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 
 ]
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8000',
+    'https://maxcdn.bootstrapcdn.com',
+    'https://code.jquery.com',
+    'https://cdnjs.cloudflare.com',
+    'https://use.fontawesome.com',
+    'https://checkout.stripe.com', 
+)
+
+
 
 ROOT_URLCONF = 'Eshop.urls'
 

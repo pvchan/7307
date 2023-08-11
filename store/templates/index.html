@@ -8,7 +8,7 @@
 <div class="container-fluid mt-3">
     <div class="row">
         <div class="col-lg-12 mx-auto">
-            <form id="mainSearchForm" class="mb-3 form-inline" onsubmit="redirectToSearch(); return false;">
+            <form id="mainSearchForm" class="mb-3 form-inline">
                 <input type="text" id="mainSearchInput" placeholder="Search for products..." class="form-control mb-2 mr-sm-2">
                 <input type="submit" value="Search" class="btn btn-primary mb-2">
             </form>
@@ -36,8 +36,14 @@
         <div id='products' class="col-lg-9 mx-auto">
             <div class="row mx-auto">
                 {% for product in products %}
-                <div class="card mx-auto mb-3" id={{product.id}} style="width: 18rem;">
-                    <a href="/product/{{product.id}}">
+                <style nonce="{{ request.nonce }}">
+                    .product-card {
+                        width: 18rem;
+                    }
+                </style>
+                
+                <div class="card mx-auto mb-3 product-card" id="{{product.id}}">
+                                    <a href="/product/{{product.id}}">
                         <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
                     </a>
                     <div class="card-body">
@@ -78,23 +84,32 @@
     </div>
 </div>
 
-<script type="text/javascript">
+<script type="text/javascript" nonce="{{ request.nonce }}">
     window.onload = function() {
-        var product_number = window.location.hash.substr(1); 
+        var product_number = window.location.hash.substr(1);
 
         var product = document.getElementById(product_number);
         if (product) {
             product.scrollIntoView();
         }
     };
+
 </script>
 
-<script type="text/javascript">
+
+
+<script type="text/javascript" nonce="{{ request.nonce }}">
     function redirectToSearch() {
         var searchTerm = document.getElementById('mainSearchInput').value;
         window.location.href = "/search#" + encodeURIComponent(searchTerm);
     }
 </script>
 
+<script type="text/javascript" nonce="{{ request.nonce }}">
+    document.getElementById('mainSearchForm').addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevents the default form submission behavior
+        redirectToSearch();
+    });
+</script>
 
 {% endblock %}

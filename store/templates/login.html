@@ -6,7 +6,14 @@
     <div class="p-3 m-3">
         <div class="col-lg-5 rounded mx-auto border">
 
-            <h3 class="alert alert-light rounded-pill" style="text-align:center" >Login</h3>
+            <style nonce="{{ request.nonce }}">
+                #loginHeader {
+                    text-align: center;
+                }
+            </style>
+            
+            <h3 class="alert alert-light rounded-pill" id="loginHeader">Login</h3>
+            
             <form action="/login" method="POST">
 
                 {% csrf_token %}
@@ -34,8 +41,14 @@
                      class="form-control form-control-sm" >
                 </div>
                 <!-- submit -->
-                <button type="submit" class="btn btn-sm btn-success col-lg-12 rounded" style="margin-bottom: 20px;">Login</button>      
-            </form>
+                <style nonce="{{ request.nonce }}">
+                    .login-button {
+                        margin-bottom: 20px;
+                    }
+                </style>
+                
+                <button type="submit" class="btn btn-sm btn-success col-lg-12 rounded login-button">Login</button>
+                            </form>
         </div>
     </div>
 </div>

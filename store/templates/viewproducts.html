@@ -5,8 +5,14 @@
         <h2 class="display-4 mb-3">All Products</h2>
         <a href="{% url 'new_product' %}" class="btn btn-primary mb-3">Add New Product</a>
         {% for product in products %}
-            <div class="card mx-auto mb-3" id={{product.id}} style="width: 18rem;">
-                <a href="{% url 'editproduct' product.id %}">
+        <style nonce="{{ request.nonce }}">
+            .product-card-width {
+                width: 18rem;
+            }
+        </style>
+        
+        <div class="card mx-auto mb-3 product-card-width" id="{{product.id}}" nonce="{{ request.nonce }}">
+                        <a href="{% url 'editproduct' product.id %}">
                     <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
                 </a>
                 <div class="card-body">

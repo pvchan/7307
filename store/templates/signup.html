@@ -6,8 +6,14 @@
 <div class="container mt-4">
     <div class="p-3 m-3">      
         <div class="col-lg-5 rounded mx-auto border pt-4">
-            <h3 class="alert alert-success rounded-pill" style="text-align:center">Create an Account</h3>
-            <form action="/signup" method="POST">
+            <style nonce="{{ request.nonce }}">
+                .centered-title {
+                    text-align: center;
+                }
+            </style>
+            
+            <h3 class="alert alert-success rounded-pill centered-title">Create an Account</h3>
+                        <form action="/signup" method="POST">
                 
                 {% csrf_token %}
 
@@ -66,8 +72,14 @@
                 </div>
 
                 <!--Checkme button-->
-                <button type="submit" class="btn btn-sm btn-success col-lg-12" style="margin-bottom: 20px;">Create an account</button>
-
+                <style nonce="{{ request.nonce }}">
+                    .create-account-btn {
+                        margin-bottom: 20px;
+                    }
+                </style>
+                
+                <button type="submit" class="btn btn-sm btn-success col-lg-12 create-account-btn">Create an account</button>
+                
             </form>
         </div>
     </div>

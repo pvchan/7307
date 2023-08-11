@@ -11,16 +11,22 @@
         <div class="col-lg-9 mx-auto">
             <h1>Search</h1>
 
-            <form onsubmit="performSearch(); return false;">
+            <form id="searchForm">
                 <input type="text" id="searchQuery" placeholder="Enter your search term..." class="form-control mb-2">
-                <input type="button" value="Search" onclick="performSearch()" class="btn btn-primary">
+                <input type="submit" value="Search" class="btn btn-primary">
             </form>
+            
 
             <div id="results" class="mt-4 mb-4">Results will appear here</div>
 
             <div class="row mx-auto" id="productList">
                 {% for product in products %}
-                <div class="card mx-auto mb-3 product-card" id={{product.id}} data-product-name="{{product.name}}" style="width: 18rem;">
+                <style nonce="{{ request.nonce }}">
+                    .product-card {
+                        width: 18rem;
+                    }
+                </style>
+                <div class="card mx-auto mb-3 product-card" id={{product.id}} data-product-name="{{product.name}}">
                     <a href="/product/{{product.id}}">
                         <img class="card-img-top" src="{{product.image.url}}" alt="Card image cap">
                     </a>
@@ -38,7 +44,7 @@
     </div>
 </div>
 
-<script>
+<script nonce="{{ request.nonce }}">
     function InputValidate(searchTerm) {
         const blackList = [
             'alert',
@@ -120,7 +126,13 @@
             }
         }
     };
+</script>
 
+<script type="text/javascript" nonce="{{ request.nonce }}">
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevents the default form submission behavior
+        performSearch();
+    });
 
 </script>
 

@@ -23,8 +23,14 @@
                 {% for product in products %}
                 <tr>
                     <td>{{forloop.counter}}</td>
-                    <td><img style="height: 80px;" class="rounded-circle" src="{{product.image.url}}" alt=""></td>
-                    <td>{{product.name}}</td>
+                    <style nonce="{{ request.nonce }}">
+                        .product-image {
+                            height: 80px;
+                        }
+                    </style>
+                    
+                    <td><img class="rounded-circle product-image" src="{{product.image.url}}" alt=""></td>
+                                        <td>{{product.name}}</td>
                     <td>{{product.price|currency}}</td>
                     <td>{{product|cart_quantity:request.session.cart}}</td>
                     <td>{{product|price_total:request.session.cart|currency}}</td>

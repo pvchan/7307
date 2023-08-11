@@ -1,5 +1,3 @@
-# views.py
-
 import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -11,9 +9,16 @@ class CSPReportView(View):
     def post(self, request, *args, **kwargs):
         try:
             report_data = json.loads(request.body.decode('utf-8'))
-            # Log the report data
+            
+            # Log the report data to a file
+            with open('csp-reports.txt', 'a') as file:
+                file.write(json.dumps(report_data) + '\n')
+                
+            # Optionally, you can also print the report data
             print(report_data)
+
         except json.JSONDecodeError:
             # Invalid JSON, you might want to log this too
             pass
+            
         return JsonResponse({'status': 'ok'})

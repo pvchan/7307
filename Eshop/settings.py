@@ -32,35 +32,6 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-CSP_REPORT_ONLY = False
-CSP_REPORT_URI = "/csp-report/"
-
-# Content Security Policy
-CSP_IMG_SRC = ("'self'", "https://www.freepnglogos.com", "https://stripe.com/", "https://q.stripe.com/")
-CSP_STYLE_SRC = (
-    "'self'",
-    "https://maxcdn.bootstrapcdn.com",
-    "https://use.fontawesome.com",
-    "https://checkout.stripe.com",
-)
-CSP_SCRIPT_SRC = (
-    "'self'",
-    "https://code.jquery.com",
-    "https://cdnjs.cloudflare.com",
-    "https://maxcdn.bootstrapcdn.com",
-    "https://checkout.stripe.com",
-)
-CSP_FRAME_SRC = ("self", "https://checkout.stripe.com",)
-CSP_CONNECT_SRC = ("'self'",)  # Might need additional URLs if you're making fetch/XHR requests
-CSP_FONT_SRC = ("'self'", "https://use.fontawesome.com",)
-CSP_BASE_URI = ("'self'",)
-CSP_DEFAULT_SRC = ("'self'",)  # By default only allow resources from the same origin
-
-# Ensure that the NONCE value is included in the CSP for styles and scripts
-CSP_INCLUDE_NONCE_IN = ('script-src', 'style-src')
-
-
-
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',

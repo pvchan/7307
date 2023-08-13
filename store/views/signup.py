@@ -2,12 +2,17 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
 from store.models.user import CustomUser, Role, UserRole
 from django.views import View
+from django.middleware.csrf import rotate_token
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
 
+@method_decorator(csrf_protect, name='dispatch')
 class Signup(View):
     def get(self, request):
         return render(request, 'signup.html')
 
     def post(self, request):
+        rotate_token(request)
         postData = request.POST
         username = postData.get('username')
         first_name = postData.get('firstname')

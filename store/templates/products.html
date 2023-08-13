@@ -54,6 +54,11 @@
 <! -- display reviews -- >
 <div class="col-md-8">
   <h1 class="display-8">Reviews</h1>
+  <div>
+    {% for message in messages %}
+    <p class="text-danger">{{message}}</p>
+    {% endfor %}
+  </div>
   <form action="/product/{{product.id}}" method="post">
     {% csrf_token %}
     <input hidden type="text" name='product' value='{{product.id}}'>
@@ -76,6 +81,6 @@
 </div>
   </div>
 </div>
-  
 
 {% endblock %}
+

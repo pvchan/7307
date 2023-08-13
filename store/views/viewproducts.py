@@ -4,7 +4,11 @@ from django.views import View
 from store.models.products import Products
 from store.models.category import Category
 from store.models.user import CustomUser, UserRole
+from django.middleware.csrf import rotate_token
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
 
+@method_decorator(csrf_protect, name='dispatch')
 class ViewProducts(View):
     def get(self, request):
         # Get user roles
@@ -31,6 +35,7 @@ class ViewProducts(View):
         # Redirect to login or other page if the user does not have the required role
         return render(request, 'login.html', {'error': 'You must be admin or staff !!'})
 
+@method_decorator(csrf_protect, name='dispatch')
 class EditProduct(View):
     def get(self, request, product_id):
         product = get_object_or_404(Products, id=product_id)
@@ -39,6 +44,7 @@ class EditProduct(View):
         return render(request, 'editproduct.html', {'product': product, 'categories': categories, 'reviews': reviews})
     
     def post(self, request, product_id):
+        rotate_token(request)
         product = get_object_or_404(Products, id=product_id)
         product.name = request.POST.get('name', product.name)
         product.price = request.POST.get('price', product.price)
@@ -49,12 +55,14 @@ class EditProduct(View):
         product.save()
         return redirect('viewproducts') # assumes the name of the url pattern for ViewProducts is 'view_products'
 
+@method_decorator(csrf_protect, name='dispatch')
 class NewProduct(View):
     def get(self, request):
         categories = Category.get_all_categories()
         return render(request, 'newproduct.html', {'categories': categories})
 
     def post(self, request):
+        rotate_token(request)
         name = request.POST.get('name')
         price = request.POST.get('price')
         description = request.POST.get('description')

@@ -2,7 +2,11 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib.auth.hashers import check_password
 from store.models.user import CustomUser, UserRole
 from django.views import View
+from django.middleware.csrf import rotate_token
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
 
+@method_decorator(csrf_protect, name='dispatch')
 class Login(View):
     return_url = None
 
@@ -11,6 +15,7 @@ class Login(View):
         return render(request, 'login.html')
 
     def post(self, request):
+        rotate_token(request)
         email = request.POST.get('email')
         password = request.POST.get('password')
         try:

@@ -8,6 +8,9 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.middleware.csrf import rotate_token
 from django.views.decorators.csrf import csrf_protect
+import re
+import bleach
+from django.contrib import messages
 
 def custom_login_required(view_func):
     def wrapper(request, *args, **kwargs):
@@ -27,6 +30,7 @@ def custom_login_required(view_func):
             return redirect(f'/login?next={next_url}')
     return wrapper
 
+@method_decorator(csrf_protect, name='dispatch')
 class ProductView(View): 
     def get(self, request, product_id):
         product = Products.objects.get(id=product_id)
@@ -37,6 +41,7 @@ class ProductView(View):
 
     @method_decorator(custom_login_required)
     def post(self, request, product_id):
+        rotate_token(request)
         product_name = request.POST.get('product')
         customer_id = request.POST.get('customer')
         review_text = request.POST.get('review')

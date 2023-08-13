@@ -30,4 +30,4 @@ wrapt==1.12.1
 django-cors-headers 
 django-csp
 bleach
-re
+regex

@@ -15,6 +15,13 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" nonce="{{ request.nonce }}">
+    document.getElementById('mainSearchForm').addEventListener('submit', function(event) {
+        event.preventDefault();  // Prevents the default form submission behavior
+        redirectToSearch();
+    });
+</script>
+
 
 <!-- body -->
 <div class="container-fluid mt-3">
@@ -103,13 +110,6 @@
         var searchTerm = document.getElementById('mainSearchInput').value;
         window.location.href = "/search#" + encodeURIComponent(searchTerm);
     }
-</script>
-
-<script type="text/javascript" nonce="{{ request.nonce }}">
-    document.getElementById('mainSearchForm').addEventListener('submit', function(event) {
-        event.preventDefault();  // Prevents the default form submission behavior
-        redirectToSearch();
-    });
 </script>
 
 {% endblock %}

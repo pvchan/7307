@@ -4,7 +4,11 @@ from django.core.validators import EmailValidator
 from django.core.exceptions import ValidationError
 from store.models.user import CustomUser, UserRole, Role
 from django.views import View
+from django.utils.decorators import method_decorator
+from django.middleware.csrf import rotate_token
+from django.views.decorators.csrf import csrf_protect
 
+@method_decorator(csrf_protect, name='dispatch')
 class CreateUser(View):
     def get(self, request):
         # Check if the logged-in user has the 'Admin' role
@@ -26,6 +30,7 @@ class CreateUser(View):
         return render(request, 'login.html', {'error': 'You must be admin !!'})
 
     def post(self, request):
+        rotate_token(request)
         # Same check for 'Admin' role as in the 'get' method
         customer_id = request.session.get('customer')
         if not customer_id or not UserRole.objects.filter(user__id=customer_id, role__name='Admin').exists():

@@ -2,7 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from store.models.category import Category
 from store.models.user import CustomUser, UserRole
+from django.middleware.csrf import rotate_token
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
 
+@method_decorator(csrf_protect, name='dispatch')
 class ViewCategories(View):
     def get(self, request):
         customer_id = request.session.get('customer')
@@ -21,6 +25,7 @@ class ViewCategories(View):
                 pass
         return render(request, 'login.html', {'error': 'You must be admin !!'})
 
+@method_decorator(csrf_protect, name='dispatch')
 class EditCategory(View):
     def get(self, request, category_id):
         customer_id = request.session.get('customer')
@@ -41,6 +46,7 @@ class EditCategory(View):
 
     def post(self, request, category_id):
         # The post method should also be restricted to admin users
+        rotate_token(request)
         customer_id = request.session.get('customer')
         if customer_id:
             try:

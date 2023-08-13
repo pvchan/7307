@@ -39,6 +39,50 @@
    5. Maintained GitHub repository
 
 
+# Database Schema 
+1. store_products
+   1. id - primary key
+   2. name - Product name
+   3. price
+   4. description
+   5. image - Image location
+   6. review - JSON with customer name and review
+   7. category id - foriegn key
+2. store_order
+   1. id - primary key
+   2. quantity
+   3. price
+   4. address
+   5. phone
+   6. date
+   7. status - 0 or 1
+3. store_category
+   1. id - primary key
+   2. name - Category name
+4. store_customuser
+   1. id - primary key
+   2. password - sha256 hashed
+   3. last_login
+   4. is_superuser
+   5. username
+   6. first_name
+   7. last_name
+   8. email
+   9. phone_number
+   10. is_active
+   11. is_staff
+   12. is_admin
+   13. user_id
+5. store_role
+   1. id - primary key
+   2. name - Role name
+   3. description
+6. store_userrole
+   1. id - primary key
+   2. order_id
+   3. role_id - foreign key
+   4. user_id - foreign key
+
 # Threats addressed by each member:
 
 1. **Broken Access Control** by Pranav Varun Chandran - a1879231

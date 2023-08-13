@@ -3,11 +3,17 @@ from store.models.products import Products
 from store.models.category import Category
 from django.views import View
 from store.models.user import CustomUser, UserRole  
+from django.utils.decorators import method_decorator
+from django.middleware.csrf import rotate_token
+from django.views.decorators.csrf import csrf_protect  
+
 
 # Create your views here.
+@method_decorator(csrf_protect, name='dispatch')
 class Index(View):
 
     def post(self , request):
+        rotate_token(request)
         product = request.POST.get('product')
         remove = request.POST.get('remove')
         cart = request.session.get('cart')

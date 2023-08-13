@@ -3,13 +3,13 @@
 # Steps to run web app
 
 1. Clone this repository into a folder on your computer.
-2. pip install virtualenv if you don't have it already.
-3. run "virtualenv venv"
-4. source venv/bin/activate
-5. pip install -r requirements.txt
-6. Type "python manage.py runserver" to start a localhost server for the app.
+2. Run "pip install virtualenv", if you don't have it already.
+3. Run "virtualenv venv"
+4. Run "source venv/bin/activate"
+5. Run "pip install -r requirements.txt"
+6. Run "python manage.py runserver" to start a localhost server for the app.
 7. Open http://127.0.0.1:8000/ in browser to access web app
-8. run "deactivate" to quit the virtual environment.
+8. Run "deactivate" to quit the virtual environment.
 
 
 # YouTube video explaining security implementations:

@@ -252,5 +252,5 @@ Extra security implementation against XSS:
 
 ![](https://lh5.googleusercontent.com/jHC8i9LsSUBhy893r4HQrZcNGLGTV-AVyyIpVTK7CNNTUaDh9R2xyP61YxphpVnWkVMusa5EnNQY-2w9TSbqVQodFZLot1DNCvgM1UzY50wIS9JOAOVfGX7vlCYoDo548Zciboj8lqLU2i9g6hfPriE)
 
-CORS policy was added as an extra protection over CSP. CSP governs all the domains that this web app can request to, while CORS policy governs all the domains that can make requests to our domain. Thus, the above CORS configuration was added to be incompatible with the CSP configuration.
+CORS policy was added as an extra protection over CSP. CSP governs all the domains that this web app can request to, while CORS policy governs all the domains that can make requests to our domain. Thus, the above CORS configuration was added to be compatible with the CSP configuration.
 

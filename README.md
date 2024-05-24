@@ -21,7 +21,7 @@
 
 1. Pranav Varun Chandran - a1879231
 
-   1. Found the base code on which this project was built on
+   1. Developed base code on which this project was built on
    2. Implemented Stripe payment functionality on the web app
    3. Added products to the catalog
    4. Maintained GitHub repository
